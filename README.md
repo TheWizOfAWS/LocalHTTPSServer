@@ -15,4 +15,6 @@ Starting the server
 
 Requirements
 Requires that Node.js is installed (https://nodejs.org/en/). The server was developed using Node.js version 8.9.1, but should work with newer versions.
-The install and startserver scripts will run on Mac and Linux. It may also work on Windows Subsystem for Linux. 
+The install and startserver scripts will run on Mac and Linux. It may also work on Windows Subsystem for Linux.
+
+Notes: Since the certificate used is self signed browsers will give you a warning if you don't trust the certificate authority. If you don't trust the certificate then you will need to click advanced in most browsers and allow the page to load.
