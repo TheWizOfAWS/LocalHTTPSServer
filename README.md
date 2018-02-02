@@ -30,4 +30,6 @@ Requirements
 Requires that Node.js is installed (https://nodejs.org/en/). The server was developed using Node.js version 8.9.1, but should work with newer versions.
 The install and startserver scripts will run on Mac and Linux. It may also work on Windows Subsystem for Linux.
 
-Notes: Since the certificate used is self signed browsers will give you a warning if you don't trust the certificate authority. If you don't trust the certificate then you will need to click advanced in most browsers and allow the page to load.
+Notes: Since the certificate used is self signed browsers will give you a warning if you don't trust the certificate. If you don't trust the certificate then you will need to click advanced in most browsers and allow the page to load.
+
+For Mac users this can be done by opening Keychain, click on System, click on File => Import Items. Select the LocalHostRootCA.pem certificate produced by the setup script. After the certificate is added to KeyChain you will need to double click on the certificate (it should say localhost) and choose Always Trust (choosing this under "When using this certificate" will choose it for all the options). Closing the window will save the settings and you will no longer get a certificate warning.
