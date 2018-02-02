@@ -1,7 +1,7 @@
-openssl req -new -x509 -days 9999 -config ca.cnf -keyout ca-key.pem -out ca-crt.pem
+openssl genrsa -out LocalHostRootCA.key 2048
+openssl req -x509 -new -nodes -config server.cnf -key LocalHostRootCA.key -sha256 -days 1024 -out LocalHostRootCA.pem
 
-openssl genrsa -out server-key.pem 4096
+openssl genrsa -out LocalHostClient1.key 2048
+openssl req -new -key LocalHostClient1.key -out LocalHostClient1.csr -config ca.cnf
 
-openssl req -new -config server.cnf -key server-key.pem -out server-csr.pem
-
-openssl x509 -req -extfile server.cnf -days 999 -passin "pass:password" -in server-csr.pem -CA ca-crt.pem -CAkey ca-key.pem -CAcreateserial -out server-crt.pem
+openssl x509 -req -in LocalHostClient1.csr -CA LocalHostRootCA.pem -CAkey LocalHostRootCA.key -CAcreateserial -out LocalHostClient1.pem -days 1024 -sha256 -passin "pass:password"

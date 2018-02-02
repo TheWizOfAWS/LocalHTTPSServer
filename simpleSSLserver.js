@@ -1,18 +1,18 @@
 var fs = require('fs');
 var https = require('https');
 var options = {
-    key: fs.readFileSync('server-key.pem'),
-    cert: fs.readFileSync('server-crt.pem'),
-    ca: fs.readFileSync('ca-crt.pem'),
+    key: fs.readFileSync('LocalHostRootCA.key'),
+    cert: fs.readFileSync('LocalHostRootCA.pem'),
+    ca: fs.readFileSync('LocalHostRootCA.srl'),
 };
 https.createServer(options, function (req, res) {
     console.log(new Date() + ' ' +
         req.connection.remoteAddress + ' ' +
         req.method + ' ' + req.url);
 
-    if (req.url.indexOf('/') > -1 && req.url.slice(-4).toLowerCase() != '.jpg' && req.url.slice(-4).toLowerCase() != '.gif' && req.url.slice(-4).toLowerCase() != '.png') {
+    if (req.url.indexOf('/') > -1 && req.url.slice(-4).toLowerCase() !== '.jpg' && req.url.slice(-4).toLowerCase() !== '.gif' && req.url.slice(-4).toLowerCase() !== '.png') {
         //Not an image, load as text.
-        if (req.url == '/') {
+        if (req.url === '/') {
             try {
                 res.writeHead(200);
                 var htmlFile = String(fs.readFileSync('www' + req.url + 'index.html'));
@@ -22,7 +22,7 @@ https.createServer(options, function (req, res) {
             }
         } else {
             var requestURL = String(req.url).split('?');
-            if (requestURL[0].slice(-1) == '/') {
+            if (requestURL[0].slice(-1) === '/') {
                 try {
                     res.writeHead(200);
                     var htmlFile = String(fs.readFileSync('www' + requestURL[0] + 'index.html'));
@@ -44,7 +44,7 @@ https.createServer(options, function (req, res) {
         }
     } else {
         var requestURL = String(req.url).split('?');
-        if (requestURL[0].slice(1) != '/') {
+        if (requestURL[0].slice(1) !== '/') {
             requestURL[0] = '/' + requestURL[0];
         }
         fs.readFile('www' + requestURL[0], function (err, content) {
@@ -54,11 +54,11 @@ https.createServer(options, function (req, res) {
                 res.end("No such image");
             } else {
                 //specify the content type in the response will be an image
-                if (requestURL[0].slice(-4) == '.jpg') {
+                if (requestURL[0].toLowerCase().slice(-4) === '.jpg') {
                     res.writeHead(200, { 'Content-type': 'image/jpg' });
-                } else if (requestURL[0].slice(-4) == '.png') {
+                } else if (requestURL[0].toLowerCase().slice(-4) === '.png') {
                     res.writeHead(200, { 'Content-type': 'image/png' });
-                } else if (requestURL[0].slice(-4) == '.gif') {
+                } else if (requestURL[0].toLowerCase().slice(-4) === '.gif') {
                     res.writeHead(200, { 'Content-type': 'image/gif' });
                 }
 
